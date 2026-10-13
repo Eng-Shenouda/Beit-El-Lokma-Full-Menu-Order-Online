@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>بيت اللقمة | منيو كامل واطلب أونلاين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{--sun:#FFC21A;--ink:#1B1030;--tomato:#F0432D;--mint:#B8F0D2;--white:#fff;--line:rgba(27,16,48,.18)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--sun);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;font-size:16px;line-height:1.6;padding-top:env(safe-area-inset-top,0);overflow-x:hidden}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+button{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.d{font-family:Lalezar,Cairo,sans-serif;font-weight:400}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.logo{font-size:28px}.logo b{background:var(--ink);color:var(--sun);padding:0 10px;border-radius:8px;margin-inline-end:6px;font-weight:400}
+.open{font-weight:700;font-size:14px;display:flex;gap:8px;align-items:center}
+.open i{width:10px;height:10px;border-radius:50%;background:var(--tomato);animation:pulse 1.6s infinite}
+.out{cursor:pointer;background:var(--ink);color:var(--sun);border:0;border-radius:99px;padding:2px 14px;font-weight:700}
+@keyframes pulse{50%{transform:scale(1.7);opacity:.4}}
+.hero{padding:18px 0 4px}
+.hero h1{font-size:clamp(50px,11vw,130px);line-height:1}
+.hero h1 span,.gbox h1 span{display:inline-block;background:var(--ink);color:var(--sun);padding:0 .18em;border-radius:.14em;transform:rotate(-2.5deg);animation:drop .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes drop{from{transform:translateY(-60px) rotate(8deg);opacity:0}}
+.hero p{margin-top:12px;font-size:19px;font-weight:600}
+.belt{margin:26px 0 0;background:var(--ink);color:var(--sun);overflow:hidden;white-space:nowrap;transform:rotate(-1deg);padding:8px 0;font-size:22px}
+.belt div{display:inline-block;animation:belt 40s linear infinite}
+@keyframes belt{to{transform:translateX(50%)}}
+nav{position:sticky;top:0;z-index:5;background:var(--sun);border-bottom:3px solid var(--ink);margin-top:26px;padding-top:env(safe-area-inset-top,0)}
+nav .wrap{display:flex;gap:10px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;color:var(--ink);font-weight:700;border:3px solid var(--ink);border-radius:99px;padding:2px 16px;background:var(--white)}
+nav a:hover{background:var(--ink);color:var(--sun)}
+main{display:grid;grid-template-columns:1fr 380px;gap:34px;padding:30px 0 90px;align-items:start}
+section[id^=c-]{scroll-margin-top:76px;margin-bottom:34px}
+h2{font-size:34px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--white);border:3px solid var(--ink);border-radius:18px 18px 18px 4px;padding:14px;display:flex;flex-direction:column;box-shadow:4px 4px 0 var(--ink)}
+.card .e{font-size:40px;line-height:1.2}
+.card strong{font-size:19px;line-height:1.3;margin-top:2px}
+.card small{opacity:.75;font-size:14px;line-height:1.4;flex:1;margin-bottom:10px}
+.buy{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.buy em{font-style:normal;font-weight:700;font-size:18px}
+.add{cursor:pointer;background:var(--ink);color:var(--sun);border:0;border-radius:99px;padding:3px 16px;font-weight:700}
+.add:hover{background:var(--tomato);color:var(--white)}
+.st{display:flex;align-items:center;background:var(--tomato);color:var(--white);border-radius:99px;font-weight:700}
+.st button{cursor:pointer;background:none;border:0;width:34px;font-size:22px;line-height:1.5}
+.st output{min-width:22px;text-align:center}
+aside{position:sticky;top:78px;max-height:calc(100vh - 92px);overflow:auto;padding:0 4px 8px 4px}
+.slip{background:var(--white);padding:22px 20px 8px;box-shadow:0 14px 0 -8px rgba(27,16,48,.18)}
+.slip h3{font-size:26px;text-align:center}
+.slip hr{border:0;border-top:2px dashed var(--line);margin:10px 0}
+.lines{max-height:230px;overflow:auto;font-size:15px}
+.ln{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.ln span{flex:1;line-height:1.3}.ln b{white-space:nowrap}
+.ln .st{background:var(--ink);color:var(--sun);font-size:14px}.ln .st button{width:26px;font-size:18px}
+.empty{text-align:center;opacity:.65;padding:14px 0}
+.sum{display:flex;justify-content:space-between;font-size:26px}
+.zig{height:12px;background:radial-gradient(circle at 6px 0,var(--white) 6px,transparent 6.5px) 0 0/12px 12px repeat-x;margin-bottom:16px}
+label{display:block;font-weight:700;margin-bottom:4px}
+.f{margin-bottom:12px}
+input{width:100%;font:inherit;padding:11px 14px;border:3px solid var(--ink);border-radius:14px;background:var(--white);color:var(--ink)}
+input[type=tel]{direction:ltr;text-align:right}
+.go{cursor:pointer;width:100%;background:var(--ink);color:var(--sun);border:0;font-size:26px;padding:10px;border-radius:16px;box-shadow:5px 5px 0 var(--tomato);font-family:Lalezar,Cairo,sans-serif}
+.go:hover{transform:translate(-2px,-2px)}.go[disabled]{opacity:.6;cursor:wait}
+.err{margin-top:12px;font-weight:700;background:var(--white);border:3px solid var(--tomato);color:var(--tomato);padding:8px 12px;border-radius:12px}
+.err:empty{display:none}
+.done{text-align:center;background:var(--mint);border:3px solid var(--ink);border-radius:24px;padding:34px 20px;box-shadow:6px 6px 0 var(--ink)}
+.done .big{font-size:64px;line-height:1}.done h2{font-size:38px;margin:8px 0 2px}
+.done code{display:inline-block;background:var(--ink);color:var(--sun);padding:2px 14px;border-radius:8px;font-weight:700;font-size:20px;direction:ltr;margin:6px 0 18px}
+.done .go{width:auto;padding:6px 26px;font-size:22px}
+.bar{display:none;position:fixed;inset-inline:12px;bottom:calc(12px + env(safe-area-inset-bottom,0));z-index:9;background:var(--ink);color:var(--sun);text-decoration:none;border-radius:18px;padding:12px 20px;justify-content:space-between;box-shadow:5px 5px 0 var(--tomato);font-size:21px}
+[hidden]{display:none!important}
+footer{background:var(--ink);color:var(--sun);text-align:center;padding:24px 20px;font-weight:600}
+#gate{min-height:100vh;display:grid;place-items:center;padding:20px}
+.gbox{width:100%;max-width:420px}.gbox h1{font-size:clamp(44px,11vw,70px);line-height:1.1;margin:14px 0 18px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs button{flex:1;cursor:pointer;border:3px solid var(--ink);border-radius:99px;padding:4px;background:var(--white);font-weight:700}
+.tabs .on{background:var(--ink);color:var(--sun)}
+.gg{background:var(--white);color:var(--ink);box-shadow:5px 5px 0 var(--ink);margin-top:14px;font-size:21px}
+body.in #gate{display:none}
+body:not(.in)>:not(#gate):not(script){display:none}
+@media(max-width:900px){main{grid-template-columns:1fr}aside{position:static;max-height:none;overflow:visible}.bar.on{display:flex}.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ===== خلفية متحركة من تحت لفوق (صفحة الدخول) ===== */
+#gate{position:relative;overflow:hidden}
+.gbox{position:relative;z-index:1}
+.rise{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.rise::after{content:"";position:absolute;inset-inline:0;bottom:0;height:35%;background:linear-gradient(to top,rgba(240,67,45,.18),transparent)}
+.rise i{position:absolute;bottom:-90px;left:var(--x);width:var(--s);height:var(--s);display:grid;place-items:center;font-style:normal;font-size:var(--s);line-height:1;opacity:0;will-change:transform,opacity;animation:rise var(--d) linear var(--dl) infinite}
+.rise i.dot{border-radius:50%;background:rgba(255,255,255,.35);border:2px solid rgba(27,16,48,.14)}
+.rise i.em{filter:drop-shadow(0 4px 0 rgba(27,16,48,.18))}
+@keyframes rise{
+  0%{transform:translate3d(0,0,0) rotate(0);opacity:0}
+  10%{opacity:var(--o)}
+  50%{transform:translate3d(var(--sw),calc(-50vh - 80px),0) rotate(calc(var(--r)/2))}
+  90%{opacity:var(--o)}
+  100%{transform:translate3d(calc(var(--sw)*-1),calc(-100vh - 180px),0) rotate(var(--r));opacity:0}
+}
+</style>
+</head>
+<body>
+<div id="gate"><div class="gbox">
+  <div class="logo d"><b>بيت</b>اللقمة</div>
+  <h1 class="d">سجّل الأول<br>وبعدين <span>اطلب</span></h1>
+  <div class="err" id="warn" hidden></div>
+  <div class="tabs"><button type="button" id="tIn" class="on">دخول</button><button type="button" id="tUp">حساب جديد</button></div>
+  <form id="af" novalidate>
+    <div class="f" id="nmf" hidden><label for="gn">الاسم</label><input id="gn" autocomplete="name"></div>
+    <div class="f"><label for="ge">الإيميل</label><input id="ge" type="email" autocomplete="email" style="direction:ltr;text-align:right"></div>
+    <div class="f"><label for="gp">كلمة السر</label><input id="gp" type="password" autocomplete="current-password" placeholder="6 حروف على الأقل"></div>
+    <button class="go" id="go" type="submit">دخول</button>
+    <button class="go gg" id="gg" type="button">كمّل بحساب Google</button>
+    <div class="err" id="aerr" role="alert"></div>
+  </form>
+</div></div>
+
+<div class="wrap">
+  <header><div class="logo d"><b>بيت</b>اللقمة</div><div class="open"><i></i> <span id="who"></span> <button class="out" id="out" type="button">خروج</button></div></header>
+  <section class="hero"><h1 class="d">جعان؟<br>اطلب <span>دلوقتي</span></h1><p>أكتر من 45 صنف. املا السلة واحنا نوصلك سخن.</p></section>
+</div>
+<div class="belt d" aria-hidden="true"><div id="belt"></div></div>
+<nav aria-label="أقسام المنيو"><div class="wrap" id="tabs"></div></nav>
+
+<div class="wrap">
+<main>
+  <div id="menu"></div>
+  <aside id="cart" aria-label="سلة الطلب">
+    <div id="orderArea">
+      <form id="form" novalidate>
+        <div class="slip">
+          <h3 class="d">سلة طلبك</h3><hr>
+          <div class="lines" id="lines"></div><hr>
+          <div class="sum d"><span>الإجمالي</span><span id="total">0 ج.م</span></div>
+        </div>
+        <div class="zig"></div>
+        <div class="f"><label for="name">الاسم</label><input id="name" autocomplete="name" placeholder="مثال: محمد علي"></div>
+        <div class="f"><label for="phone">رقم الموبايل</label><input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX" maxlength="11"></div>
+        <button class="go" id="send" type="submit">ابعت الطلب</button>
+        <div class="err" id="err" role="alert"></div>
+      </form>
+      <div class="done" id="done" hidden>
+        <div class="big">🎉</div><h2 class="d">طلبك وصلنا</h2><p>رقم طلبك</p>
+        <code id="doneId"></code><p>هيوصلك خلال حوالي <b id="eta"></b> دقيقة، وبعتنالك إيميل تأكيد.</p><br><button class="go" id="again" type="button">اطلب تاني</button>
+      </div>
+    </div>
+  </aside>
+</main>
+</div>
+<a class="bar d" id="bar" href="#cart"><span id="barN"></span><span id="barT"></span></a>
+<footer>بيت اللقمة. الطلب بيوصلنا في نفس اللحظة.</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="config.js"></script>
+<script>
+const CATS = {meals:"الوجبات",burger:"ساندوتشات وبرجر",grill:"المشويات",chicken:"الدجاج المقرمش",sides:"المقبلات",sweet:"الحلويات",drinks:"المشروبات"};
+const RAW = `meals|🍗|وجبة العائلة|8 قطع دجاج وبطاطس وسلطة|475
+meals|🍱|وجبة الصحبة|12 قطعة مشكلة وأرز وصوص|640
+meals|🥘|وجبة الشلة|مشاوي وأرز ومقبلات لـ 4 أفراد|820
+meals|🍽️|وجبة الاتنين|وجبتين كاملتين ومشروبين|290
+meals|🍛|وجبة الغدا|فراخ مشوية وأرز وخضار|150
+meals|🥡|وجبة الطالب|ساندوتش وبطاطس ومشروب|85
+burger|🍔|برجر كلاسيك|لحم بلدي وخس وطماطم وصوص|95
+burger|🧀|تشيز برجر دبل|قطعتين لحم وجبنة شيدر|135
+burger|🌶️|برجر حار|هالبينو وصوص حار وجبنة|120
+burger|🥪|كرسبي ساندوتش|فراخ مقرمشة وكولسلو|85
+burger|🌯|شاورما فراخ|مع ثوم وبطاطس ومخلل|70
+burger|🥙|شاورما لحم|مع طحينة وطماطم|90
+burger|🥖|حواوشي|عيش بلدي ولحمة مفرومة متبلة|75
+burger|🌭|هوت دوج|سجق بقري وصوص خردل|60
+grill|🍖|كفتة مشوية|ربع كيلو مع أرز وطحينة|140
+grill|🍢|كباب|ربع كيلو لحم ضاني مشوي|190
+grill|🥩|ريش ضاني|ريش مشوية على الفحم|320
+grill|🍗|نص فراخ مشوية|متبلة ومشوية بالأعشاب|130
+grill|🐟|سمك مشوي|بوري طازج مع سلطة طحينة|210
+grill|🔥|مكس جريل|كفتة وكباب وفراخ وأرز|390
+chicken|🍗|كرسبي 5 قطع|مقرمشة مع بطاطس وصوص|110
+chicken|🍗|كرسبي 8 قطع|مقرمشة مع بطاطس وصوصين|165
+chicken|🔥|أجنحة بافلو|10 أجنحة بصوص حار|105
+chicken|🐔|ستربس دجاج|6 قطع مع صوص عسل وخردل|95
+chicken|🥣|بوبكورن دجاج|قطع صغيرة مقرمشة|80
+chicken|🧀|فراخ بالجبنة|بانيه محشي موتزاريلا|115
+sides|🍟|بطاطس مقرمشة|حصة كبيرة بالملح|40
+sides|🧅|أرينج|حلقات بصل مقرمشة|45
+sides|🥗|سلطة سيزر|خس وجبنة بارميزان|55
+sides|🍚|أرز بسمتي|بالزبدة والشعرية|35
+sides|🥔|بطاطس ودجز|متبلة بالأعشاب|50
+sides|🧆|فلافل|6 قطع مع طحينة|30
+sides|🧄|ثومية|صوص ثوم إضافي|10
+sides|🍞|عيش بلدي|4 أرغفة طازجة|10
+sweet|🍰|تشيز كيك|بصوص الفراولة|75
+sweet|🍫|براوني|ساخن مع صوص الشوكولاتة|60
+sweet|🍮|أم علي|بالمكسرات والقشطة|55
+sweet|🧁|كب كيك|فانيليا بكريمة الزبدة|45
+sweet|🍨|آيس كريم|3 كرات بنكهات اختيارية|50
+sweet|🥞|فطير مشلتت بالعسل|مقرمش مع عسل وقشطة|70
+drinks|🥤|كولا|علبة باردة|25
+drinks|🍋|ليمون بالنعناع|طازج ومثلج|35
+drinks|🍊|عصير برتقال|طازج 100 بالمية|40
+drinks|🥭|عصير مانجو|مانجو طبيعية|45
+drinks|🥛|ميلك شيك فانيليا|كريمي ومثلج|60
+drinks|🍫|ميلك شيك شوكولاتة|بصوص الشوكولاتة|60
+drinks|💧|مياه معدنية|زجاجة 600 مل|10
+drinks|☕|قهوة تركي|مظبوط أو سادة|30
+drinks|🍵|شاي بالنعناع|براد صغير|20`;
+const $ = id => document.getElementById(id);
+const ITEMS = RAW.split("\n").map((l,i)=>{const [c,e,n,d,p]=l.split("|");return {i,c,e,n,d,p:+p};});
+let cart = {};
+firebase.initializeApp(firebaseConfig); const auth = firebase.auth(); let mode = "in";
+const msg = e => ({"auth/email-already-in-use":"الإيميل ده مسجّل قبل كده","auth/invalid-credential":"الإيميل أو كلمة السر غلط","auth/weak-password":"كلمة السر ضعيفة (6 حروف على الأقل)","auth/invalid-email":"الإيميل مش مظبوط","auth/operation-not-allowed":"الطريقة دي مش مفعّلة في Firebase","auth/configuration-not-found":"فعّل Authentication في Firebase","auth/unauthorized-domain":"الدومين مش مضاف في Firebase","auth/invalid-api-key":"مفتاح Firebase غلط","auth/popup-closed-by-user":"قفلت نافذة Google","auth/popup-blocked":"المتصفح منع نافذة Google"}[e.code] || ("حصل خطأ (" + (e.code||e.message) + ")"));
+const bad = location.protocol==="file:" ? "الصفحة مفتوحة من الملف مباشرة. افتح http://localhost:5500 من فولدر المشروع." : (/^PASTE/.test(firebaseConfig.apiKey) ? "ملف config.js جنب الصفحة مفيهوش بيانات Firebase. استخدم config.js بتاع فولدر المشروع." : "");
+if(bad){ $("warn").textContent = bad; $("warn").hidden = false; }
+function tab(m){ mode=m; $("tIn").className=m=="in"?"on":""; $("tUp").className=m=="up"?"on":""; $("nmf").hidden=m=="in"; $("go").textContent=m=="in"?"دخول":"افتح الحساب"; $("aerr").textContent=""; }
+$("tIn").onclick=()=>tab("in"); $("tUp").onclick=()=>tab("up");
+$("af").addEventListener("submit", async e=>{
+  e.preventDefault(); $("aerr").textContent="";
+  try{
+    const em=$("ge").value.trim(), pw=$("gp").value;
+    if(mode=="in") await auth.signInWithEmailAndPassword(em,pw);
+    else{
+      const n=$("gn").value.trim(); if(n.length<2) return $("aerr").textContent="اكتب اسمك";
+      const c=await auth.createUserWithEmailAndPassword(em,pw); await c.user.updateProfile({displayName:n});
+      $("who").textContent=n; $("name").value=n;
+    }
+  }catch(x){ $("aerr").textContent=msg(x); }
+});
+$("gg").onclick=()=>auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(x=>$("aerr").textContent=msg(x));
+$("out").onclick=()=>auth.signOut();
+auth.onAuthStateChanged(u=>{
+  document.body.classList.toggle("in",!!u);
+  if(u){ const n=u.displayName||u.email.split("@")[0]; $("who").textContent="أهلاً "+n; if(!$("name").value) $("name").value=u.displayName||""; }
+});
+
+$("belt").textContent = Array(14).fill("وجبات ✦ برجر ✦ مشاوي ✦ كرسبي ✦ حلويات ✦ مشروبات ✦").join(" ");
+$("tabs").innerHTML = Object.entries(CATS).map(([k,v])=>`<a href="#c-${k}">${v}</a>`).join("");
+const buy = it => cart[it.i] ? `<em>${it.p} ج.م</em><div class="st"><button data-i="${it.i}" data-d="1" aria-label="زوّد">+</button><output>${cart[it.i]}</output><button data-i="${it.i}" data-d="-1" aria-label="قلّل">−</button></div>` : `<em>${it.p} ج.م</em><button class="add" data-i="${it.i}" data-d="1">ضيف</button>`;
+$("menu").innerHTML = Object.entries(CATS).map(([k,v])=>`<section id="c-${k}"><h2 class="d">${v}</h2><div class="grid">${ITEMS.filter(x=>x.c===k).map(it=>`<div class="card"><span class="e">${it.e}</span><strong class="d">${it.n}</strong><small>${it.d}</small><div class="buy" id="b${it.i}">${buy(it)}</div></div>`).join("")}</div></section>`).join("");
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-d]"); if(!b) return;
+  const i = +b.dataset.i, q = (cart[i]||0) + (+b.dataset.d);
+  if(q<=0) delete cart[i]; else cart[i] = Math.min(q, 20);
+  $("b"+i).innerHTML = buy(ITEMS[i]); paint();
+});
+function lines(){ return Object.keys(cart).map(i=>({it:ITEMS[i],q:cart[i]})); }
+function paint(){
+  const L = lines(), n = L.reduce((s,l)=>s+l.q,0), t = L.reduce((s,l)=>s+l.q*l.it.p,0);
+  $("lines").innerHTML = L.length ? L.map(({it,q})=>`<div class="ln"><span>${it.n}</span><div class="st"><button type="button" data-i="${it.i}" data-d="1">+</button><output>${q}</output><button type="button" data-i="${it.i}" data-d="-1">−</button></div><b>${it.p*q}</b></div>`).join("") : `<div class="empty">السلة فاضية. اختار من المنيو.</div>`;
+  $("total").textContent = t + " ج.م";
+  $("bar").classList.toggle("on", n>0);
+  $("barN").textContent = "السلة (" + n + ")"; $("barT").textContent = t + " ج.م";
+}
+paint();
+$("phone").addEventListener("input", e=>{ e.target.value = e.target.value.replace(/\D/g,""); });
+$("form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const err = $("err"); err.textContent = "";
+  const L = lines(), name = $("name").value.trim(), phone = $("phone").value.trim();
+  if(!L.length){ err.textContent = "السلة فاضية. ضيف صنف واحد على الأقل."; return; }
+  if(name.length < 2){ err.textContent = "اكتب اسمك الأول."; $("name").focus(); return; }
+  if(!/^01[0125]\d{8}$/.test(phone)){ err.textContent = "رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 01."; $("phone").focus(); return; }
+  const btn = $("send"); btn.disabled = true; btn.textContent = "جاري الإرسال...";
+  try{
+    const t = await auth.currentUser.getIdToken();
+    const res = await fetch(WEBHOOK_URL, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({idToken:t, customer_name:name, phone, items:L.map(l=>({name:l.it.n, qty:l.q}))})
+    });
+    const d = await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error((d.errors||["الطلب ماتبعتش، جرّب تاني."]).join("، "));
+    $("doneId").textContent = d.order_id; $("eta").textContent = d.eta_minutes;
+    $("form").hidden = true; $("done").hidden = false; $("bar").classList.remove("on");
+  }catch(x){
+    err.textContent = x instanceof TypeError ? "الطلب ماتبعتش. اتأكد من النت وجرّب تاني." : x.message;
+  }finally{ btn.disabled = false; btn.textContent = "ابعت الطلب"; }
+});
+$("again").onclick = ()=>{
+  cart = {}; $("phone").value = "";
+  ITEMS.forEach(it=>$("b"+it.i).innerHTML = buy(it));
+  $("done").hidden = true; $("form").hidden = false; paint(); scrollTo({top:0});
+};
+
+/* ===== خلفية متحركة من تحت لفوق (صفحة الدخول) ===== */
+(function(){
+  const box = document.createElement("div");
+  box.className = "rise"; box.setAttribute("aria-hidden","true");
+  const E = ["🍔","🍟","🍗","🍕","🌯","🥤","🍰","🍩"];
+  const n = innerWidth < 600 ? 14 : 26;
+  let h = "";
+  for(let k=0;k<n;k++){
+    const em = k % 3 !== 0;
+    const s  = em ? 26 + Math.random()*30 : 10 + Math.random()*28;
+    const d  = 12 + Math.random()*14;
+    const st = `--x:${(Math.random()*96).toFixed(1)}%;--s:${s.toFixed(0)}px;--d:${d.toFixed(1)}s;--dl:-${(Math.random()*d).toFixed(1)}s;--sw:${((Math.random()-.5)*80).toFixed(0)}px;--r:${((Math.random()-.5)*50).toFixed(0)}deg;--o:${em?(.35+Math.random()*.3).toFixed(2):1}`;
+    h += `<i class="${em?"em":"dot"}" style="${st}">${em?E[k%E.length]:""}</i>`;
+  }
+  box.innerHTML = h;
+  $("gate").prepend(box);
+})();
+</script>
+</body>
+</html>

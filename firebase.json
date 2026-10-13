@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "add_to_existing_workflow.json",
+      "add_website_branch.json"
+    ]
+  }
+}

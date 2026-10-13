@@ -1,0 +1,150 @@
+{
+ "nodes": [
+  {
+   "parameters": {
+    "method": "POST",
+    "url": "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=FIREBASE_WEB_API_KEY",
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify({ idToken: $json.body.idToken || '' }) }}",
+    "options": {
+     "response": {
+      "response": {
+       "neverError": true
+      }
+     }
+    }
+   },
+   "id": "a1",
+   "name": "Verify Login",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    0,
+    600
+   ]
+  },
+  {
+   "parameters": {
+    "mode": "runOnceForEachItem",
+    "jsCode": "const MENU={\"وجبة العائلة\": 475, \"وجبة الصحبة\": 640, \"وجبة الشلة\": 820, \"وجبة الاتنين\": 290, \"وجبة الغدا\": 150, \"وجبة الطالب\": 85, \"برجر كلاسيك\": 95, \"تشيز برجر دبل\": 135, \"برجر حار\": 120, \"كرسبي ساندوتش\": 85, \"شاورما فراخ\": 70, \"شاورما لحم\": 90, \"حواوشي\": 75, \"هوت دوج\": 60, \"كفتة مشوية\": 140, \"كباب\": 190, \"ريش ضاني\": 320, \"نص فراخ مشوية\": 130, \"سمك مشوي\": 210, \"مكس جريل\": 390, \"كرسبي 5 قطع\": 110, \"كرسبي 8 قطع\": 165, \"أجنحة بافلو\": 105, \"ستربس دجاج\": 95, \"بوبكورن دجاج\": 80, \"فراخ بالجبنة\": 115, \"بطاطس مقرمشة\": 40, \"أرينج\": 45, \"سلطة سيزر\": 55, \"أرز بسمتي\": 35, \"بطاطس ودجز\": 50, \"فلافل\": 30, \"ثومية\": 10, \"عيش بلدي\": 10, \"تشيز كيك\": 75, \"براوني\": 60, \"أم علي\": 55, \"كب كيك\": 45, \"آيس كريم\": 50, \"فطير مشلتت بالعسل\": 70, \"كولا\": 25, \"ليمون بالنعناع\": 35, \"عصير برتقال\": 40, \"عصير مانجو\": 45, \"ميلك شيك فانيليا\": 60, \"ميلك شيك شوكولاتة\": 60, \"مياه معدنية\": 10, \"قهوة تركي\": 30, \"شاي بالنعناع\": 20}; // نفس منيو الموقع\nconst ETA_MINUTES=45, OWNER_EMAIL='owner@example.com'; // عدّلهما\nconst b=$('Webhook - New Order').item.json.body||{};\nconst u=($json.users||[])[0]; const errors=[];\nif(!u||!u.email) errors.push('انتهت الجلسة، سجّل دخول تاني');\nconst name=String(b.customer_name||'').trim()||(u&&u.displayName)||'';\nconst phone=String(b.phone||'').trim();\nconst items=Array.isArray(b.items)?b.items:[];\nif(name.length<2) errors.push('الاسم مطلوب');\nif(!/^01[0125]\\d{8}$/.test(phone)) errors.push('رقم الموبايل غير صحيح');\nif(!items.length||items.length>45) errors.push('السلة فاضية');\nlet total=0,qty=0; const parts=[];\nfor(const it of items){const q=Number(it&&it.qty),n=String(it&&it.name||'');\n if(!Object.hasOwn(MENU,n)||!Number.isInteger(q)||q<1||q>20){errors.push('صنف أو كمية غير صحيحة');break}\n total+=MENU[n]*q;qty+=q;parts.push(n+' ×'+q);}\nconst order_id='ORD-'+Date.now().toString().slice(-7);\nreturn {json:{valid:errors.length===0,errors,ownerEmail:OWNER_EMAIL,etaMinutes:ETA_MINUTES,email:u?u.email:'',order:{order_id,customer_name:name,phone,item:parts.join(' + '),quantity:qty,total}}};"
+   },
+   "id": "a2",
+   "name": "Validate & Normalize",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    600
+   ]
+  },
+  {
+   "parameters": {
+    "sendTo": "={{ $('Validate & Normalize').item.json.email }}",
+    "subject": "=تأكيد طلبك رقم {{ $('Validate & Normalize').item.json.order.order_id }}",
+    "emailType": "html",
+    "message": "<div dir='rtl'><p>عزيزي {{ $('Validate & Normalize').item.json.order.customer_name }}،</p><p>تم استلام طلبك رقم <b>{{ $('Validate & Normalize').item.json.order.order_id }}</b> ({{ $('Validate & Normalize').item.json.order.quantity }} × {{ $('Validate & Normalize').item.json.order.item }}) بإجمالي {{ $('Validate & Normalize').item.json.order.total }} جنيه.</p><p>سيصلك طلبك خلال حوالي <b>{{ $('Validate & Normalize').item.json.etaMinutes }} دقيقة</b>.</p><p>شكراً لاختيارك لنا.</p></div>",
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "a3",
+   "name": "Email - Customer",
+   "type": "n8n-nodes-base.gmail",
+   "typeVersion": 2.1,
+   "position": [
+    440,
+    600
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 2000,
+   "credentials": {
+    "gmailOAuth2": {
+     "id": "REPLACE_ME",
+     "name": "Gmail account"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "sendTo": "={{ $('Validate & Normalize').item.json.ownerEmail }}",
+    "subject": "=طلب جديد {{ $('Validate & Normalize').item.json.order.order_id }} - {{ $('Validate & Normalize').item.json.order.customer_name }}",
+    "emailType": "html",
+    "message": "<div dir='rtl'><p><b>طلب جديد: {{ $('Validate & Normalize').item.json.order.order_id }}</b></p><p>العميل: {{ $('Validate & Normalize').item.json.order.customer_name }}<br>الهاتف: {{ $('Validate & Normalize').item.json.order.phone }}<br>البريد: {{ $('Validate & Normalize').item.json.email }}<br>الطلب: {{ $('Validate & Normalize').item.json.order.quantity }} × {{ $('Validate & Normalize').item.json.order.item }}<br>الإجمالي: {{ $('Validate & Normalize').item.json.order.total }} جنيه<br>الوقت المتوقع: {{ $('Validate & Normalize').item.json.etaMinutes }} دقيقة</p></div>",
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "a4",
+   "name": "Email - Owner",
+   "type": "n8n-nodes-base.gmail",
+   "typeVersion": 2.1,
+   "position": [
+    660,
+    600
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 2000,
+   "credentials": {
+    "gmailOAuth2": {
+     "id": "REPLACE_ME",
+     "name": "Gmail account"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { status: 'success', order_id: $('Validate & Normalize').item.json.order.order_id, eta_minutes: $('Validate & Normalize').item.json.etaMinutes } }}",
+    "options": {
+     "responseCode": 200
+    }
+   },
+   "id": "a5",
+   "name": "Respond 200 OK",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    880,
+    600
+   ]
+  }
+ ],
+ "connections": {
+  "Verify Login": {
+   "main": [
+    [
+     {
+      "node": "Validate & Normalize",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Email - Customer": {
+   "main": [
+    [
+     {
+      "node": "Email - Owner",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Email - Owner": {
+   "main": [
+    [
+     {
+      "node": "Respond 200 OK",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ }
+}

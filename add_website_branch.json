@@ -1,0 +1,317 @@
+{
+ "nodes": [
+  {
+   "parameters": {
+    "method": "POST",
+    "url": "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=FIREBASE_WEB_API_KEY",
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify({ idToken: $json.body.idToken || '' }) }}",
+    "options": {
+     "response": {
+      "response": {
+       "neverError": true
+      }
+     }
+    }
+   },
+   "id": "a1",
+   "name": "Verify Web Login",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    0,
+    600
+   ]
+  },
+  {
+   "parameters": {
+    "mode": "runOnceForEachItem",
+    "jsCode": "const MENU={\"وجبة العائلة\": 475, \"وجبة الصحبة\": 640, \"وجبة الشلة\": 820, \"وجبة الاتنين\": 290, \"وجبة الغدا\": 150, \"وجبة الطالب\": 85, \"برجر كلاسيك\": 95, \"تشيز برجر دبل\": 135, \"برجر حار\": 120, \"كرسبي ساندوتش\": 85, \"شاورما فراخ\": 70, \"شاورما لحم\": 90, \"حواوشي\": 75, \"هوت دوج\": 60, \"كفتة مشوية\": 140, \"كباب\": 190, \"ريش ضاني\": 320, \"نص فراخ مشوية\": 130, \"سمك مشوي\": 210, \"مكس جريل\": 390, \"كرسبي 5 قطع\": 110, \"كرسبي 8 قطع\": 165, \"أجنحة بافلو\": 105, \"ستربس دجاج\": 95, \"بوبكورن دجاج\": 80, \"فراخ بالجبنة\": 115, \"بطاطس مقرمشة\": 40, \"أرينج\": 45, \"سلطة سيزر\": 55, \"أرز بسمتي\": 35, \"بطاطس ودجز\": 50, \"فلافل\": 30, \"ثومية\": 10, \"عيش بلدي\": 10, \"تشيز كيك\": 75, \"براوني\": 60, \"أم علي\": 55, \"كب كيك\": 45, \"آيس كريم\": 50, \"فطير مشلتت بالعسل\": 70, \"كولا\": 25, \"ليمون بالنعناع\": 35, \"عصير برتقال\": 40, \"عصير مانجو\": 45, \"ميلك شيك فانيليا\": 60, \"ميلك شيك شوكولاتة\": 60, \"مياه معدنية\": 10, \"قهوة تركي\": 30, \"شاي بالنعناع\": 20}; // نفس منيو الموقع\nconst ETA_MINUTES=45, OWNER_EMAIL='owner@example.com'; // عدّلهما\nconst b=$('Webhook - Website Order').item.json.body||{};\nconst u=($json.users||[])[0]; const errors=[];\nif(!u||!u.email) errors.push('انتهت الجلسة، سجّل دخول تاني');\nconst name=String(b.customer_name||'').trim()||(u&&u.displayName)||'';\nconst phone=String(b.phone||'').trim();\nconst items=Array.isArray(b.items)?b.items:[];\nif(name.length<2) errors.push('الاسم مطلوب');\nif(!/^01[0125]\\d{8}$/.test(phone)) errors.push('رقم الموبايل غير صحيح');\nif(!items.length||items.length>45) errors.push('السلة فاضية');\nlet total=0,qty=0; const parts=[];\nfor(const it of items){const q=Number(it&&it.qty),n=String(it&&it.name||'');\n if(!Object.hasOwn(MENU,n)||!Number.isInteger(q)||q<1||q>20){errors.push('صنف أو كمية غير صحيحة');break}\n total+=MENU[n]*q;qty+=q;parts.push(n+' ×'+q);}\nconst order_id='ORD-'+Date.now().toString().slice(-7);\nreturn {json:{valid:errors.length===0,errors,ownerEmail:OWNER_EMAIL,etaMinutes:ETA_MINUTES,email:u?u.email:'',order:{order_id,customer_name:name,phone,item:parts.join(' + '),quantity:qty,total}}};"
+   },
+   "id": "a2",
+   "name": "Build Order",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    600
+   ]
+  },
+  {
+   "parameters": {
+    "sendTo": "={{ $('Build Order').item.json.email }}",
+    "subject": "=تأكيد طلبك رقم {{ $('Build Order').item.json.order.order_id }}",
+    "emailType": "html",
+    "message": "<div dir='rtl'><p>عزيزي {{ $('Build Order').item.json.order.customer_name }}،</p><p>تم استلام طلبك رقم <b>{{ $('Build Order').item.json.order.order_id }}</b> ({{ $('Build Order').item.json.order.quantity }} × {{ $('Build Order').item.json.order.item }}) بإجمالي {{ $('Build Order').item.json.order.total }} جنيه.</p><p>سيصلك طلبك خلال حوالي <b>{{ $('Build Order').item.json.etaMinutes }} دقيقة</b>.</p><p>شكراً لاختيارك لنا.</p></div>",
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "a3",
+   "name": "Email Customer (Web)",
+   "type": "n8n-nodes-base.gmail",
+   "typeVersion": 2.1,
+   "position": [
+    880,
+    500
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 2000,
+   "credentials": {
+    "gmailOAuth2": {
+     "id": "REPLACE_ME",
+     "name": "Gmail account"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "sendTo": "={{ $('Build Order').item.json.ownerEmail }}",
+    "subject": "=طلب جديد {{ $('Build Order').item.json.order.order_id }} - {{ $('Build Order').item.json.order.customer_name }}",
+    "emailType": "html",
+    "message": "<div dir='rtl'><p><b>طلب جديد: {{ $('Build Order').item.json.order.order_id }}</b></p><p>العميل: {{ $('Build Order').item.json.order.customer_name }}<br>الهاتف: {{ $('Build Order').item.json.order.phone }}<br>البريد: {{ $('Build Order').item.json.email }}<br>الطلب: {{ $('Build Order').item.json.order.quantity }} × {{ $('Build Order').item.json.order.item }}<br>الإجمالي: {{ $('Build Order').item.json.order.total }} جنيه<br>الوقت المتوقع: {{ $('Build Order').item.json.etaMinutes }} دقيقة</p></div>",
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "a4",
+   "name": "Email Owner (Web)",
+   "type": "n8n-nodes-base.gmail",
+   "typeVersion": 2.1,
+   "position": [
+    1100,
+    500
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 2000,
+   "credentials": {
+    "gmailOAuth2": {
+     "id": "REPLACE_ME",
+     "name": "Gmail account"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { status: 'success', order_id: $('Build Order').item.json.order.order_id, eta_minutes: $('Build Order').item.json.etaMinutes } }}",
+    "options": {
+     "responseCode": 200
+    }
+   },
+   "id": "a5",
+   "name": "Respond Web OK",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    1320,
+    500
+   ]
+  },
+  {
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "web-order",
+    "responseMode": "responseNode",
+    "options": {
+     "allowedOrigins": "*"
+    }
+   },
+   "id": "w1",
+   "name": "Webhook - Website Order",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2,
+   "position": [
+    -220,
+    600
+   ],
+   "webhookId": "web-order"
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "strict"
+     },
+     "conditions": [
+      {
+       "id": "v",
+       "leftValue": "={{ $json.valid }}",
+       "rightValue": "",
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "id": "w2",
+   "name": "Is Order Valid?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2,
+   "position": [
+    440,
+    600
+   ]
+  },
+  {
+   "parameters": {
+    "operation": "append",
+    "documentId": {
+     "__rl": true,
+     "value": "REPLACE_WITH_SPREADSHEET_ID",
+     "mode": "id"
+    },
+    "sheetName": {
+     "__rl": true,
+     "value": "Orders",
+     "mode": "name"
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "Received At": "={{ $now.toISO() }}",
+      "Order ID": "={{ $json.order.order_id }}",
+      "Customer Name": "={{ $json.order.customer_name }}",
+      "Phone": "={{ $json.order.phone }}",
+      "Item": "={{ $json.order.item }}",
+      "Quantity": "={{ $json.order.quantity }}",
+      "Total": "={{ $json.order.total }}"
+     },
+     "matchingColumns": [],
+     "schema": []
+    },
+    "options": {}
+   },
+   "id": "w3",
+   "name": "Append Website Order",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.5,
+   "position": [
+    660,
+    500
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 2000,
+   "credentials": {
+    "googleSheetsOAuth2Api": {
+     "id": "REPLACE_ME",
+     "name": "Google Sheets account"
+    }
+   }
+  },
+  {
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { status: 'error', errors: $json.errors } }}",
+    "options": {
+     "responseCode": 400
+    }
+   },
+   "id": "w4",
+   "name": "Respond Web Error",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    720
+   ]
+  }
+ ],
+ "connections": {
+  "Verify Web Login": {
+   "main": [
+    [
+     {
+      "node": "Build Order",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Email Customer (Web)": {
+   "main": [
+    [
+     {
+      "node": "Email Owner (Web)",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Email Owner (Web)": {
+   "main": [
+    [
+     {
+      "node": "Respond Web OK",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Webhook - Website Order": {
+   "main": [
+    [
+     {
+      "node": "Verify Web Login",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Build Order": {
+   "main": [
+    [
+     {
+      "node": "Is Order Valid?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Is Order Valid?": {
+   "main": [
+    [
+     {
+      "node": "Append Website Order",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Respond Web Error",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Append Website Order": {
+   "main": [
+    [
+     {
+      "node": "Email Customer (Web)",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ }
+}
